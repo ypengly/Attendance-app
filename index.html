@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Employee Attendance</title>
+<link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+
+<div class="kiosk">
+
+  <header class="kiosk-header">
+    <div>
+      <h1>Employee Attendance</h1>
+      <p>Face recognition check-in / check-out</p>
+    </div>
+    <button class="enroll-btn" id="openEnrollBtn" type="button">Enroll Employee</button>
+  </header>
+
+  <div class="clock-block">
+    <div class="clock-date" id="clockDate">—</div>
+    <div class="clock-time" id="clockTime">--:--:--</div>
+  </div>
+
+  <div id="modelErrorBanner" class="model-error-banner"></div>
+
+  <section class="camera-panel">
+    <div class="camera-frame" id="cameraFrame">
+      <video id="video" autoplay muted playsinline></video>
+      <canvas id="overlay"></canvas>
+      <div class="camera-hint">Look at the camera to record your attendance</div>
+
+      <div class="camera-overlay-msg" id="cameraErrorMsg">
+        <strong>Unable to access camera</strong>
+        <span>Please allow camera permission in your browser and reload this page.</span>
+      </div>
+      <div class="camera-overlay-msg" id="modelsLoadingMsg">
+        <strong>Starting camera and loading recognition models…</strong>
+        <span>This only takes a moment.</span>
+      </div>
+    </div>
+
+    <div class="status-row">
+      <span class="status-dot" id="statusDot"></span>
+      <div>
+        <div class="status-text" id="statusText">Looking for a face…</div>
+        <div class="status-sub" id="statusSub"></div>
+      </div>
+    </div>
+
+    <div class="result-banner" id="resultBanner">
+      <div class="result-icon" id="resultIcon">✓</div>
+      <div class="result-body">
+        <strong id="resultTitle"></strong>
+        <span id="resultSubtitle"></span>
+        <div class="result-meta" id="resultMeta"></div>
+      </div>
+    </div>
+  </section>
+
+  <section class="table-panel">
+    <div class="table-panel-header">
+      <h2>Today's Attendance</h2>
+      <span id="todayDateLabel"></span>
+    </div>
+    <table class="attendance-table">
+      <thead>
+        <tr>
+          <th>Employee</th>
+          <th>Entry</th>
+          <th>Exit</th>
+          <th>Status</th>
+        </tr>
+      </thead>
+      <tbody id="attendanceBody">
+        <tr class="empty-row"><td colspan="4">No attendance recorded yet today.</td></tr>
+      </tbody>
+    </table>
+  </section>
+
+  <div class="privacy-notice">
+    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8">
+      <path d="M12 2 4 5v6c0 5 3.4 8.7 8 9 4.6-.3 8-4 8-9V5l-8-3Z"/>
+    </svg>
+    Camera is used only to verify employee identity and record attendance. Video is not recorded or stored.
+  </div>
+
+</div>
+
+<!-- Enrollment modal -->
+<div class="modal-backdrop" id="enrollBackdrop">
+  <div class="modal">
+    <div class="modal-header">
+      <div>
+        <h2>Enroll Employee</h2>
+        <p>Capture a few angles to register a face.</p>
+      </div>
+      <button class="modal-close" id="closeEnrollBtn" type="button">&times;</button>
+    </div>
+
+    <div id="enrollFormView">
+      <div class="field">
+        <label for="enrollId">Employee ID</label>
+        <input type="text" id="enrollId" placeholder="e.g. EMP004" autocomplete="off">
+      </div>
+      <div class="field">
+        <label for="enrollName">Employee Name</label>
+        <input type="text" id="enrollName" placeholder="e.g. Maria Santos" autocomplete="off">
+      </div>
+
+      <div class="enroll-camera-frame">
+        <video id="enrollVideo" autoplay muted playsinline></video>
+        <canvas id="enrollOverlay"></canvas>
+      </div>
+
+      <div class="enroll-progress" id="enrollProgress"></div>
+      <div class="enroll-status" id="enrollStatus">Enter details, then look at the camera.</div>
+
+      <div class="modal-actions">
+        <button class="btn" id="cancelEnrollBtn" type="button">Cancel</button>
+        <button class="btn primary" id="captureEnrollBtn" type="button" disabled>Look at the camera</button>
+      </div>
+    </div>
+
+    <div class="enroll-success" id="enrollSuccessView">
+      <div class="check">✓</div>
+      <strong>Employee enrolled successfully</strong>
+      <span id="enrollSuccessDetail"></span>
+      <div class="modal-actions" style="width:100%; margin-top:8px;">
+        <button class="btn primary" id="doneEnrollBtn" type="button" style="flex:1;">Done</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script src="js/face-api.min.js"></script>
+<script src="js/db.js"></script>
+<script src="js/app.js"></script>
+</body>
+</html>
