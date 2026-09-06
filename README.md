@@ -46,21 +46,7 @@
 - [🤝 Contributing](#-contributing)
 - [📄 License](#-license)
 
----
 
-## 🎯 How It Works
-
-```mermaid
-graph TD
-    A[Employee walks up] --> B[Camera captures face]
-    B --> C[Face detection & alignment]
-    C --> D[128-dimension embedding]
-    D --> E{Compare to enrolled faces}
-    E -->|Match found| F[Check-in / Check-out]
-    E -->|No match| G[Show "Unknown"]
-    F --> H[Log to IndexedDB]
-    H --> I[Update UI with status]
-```
 
 ### The Recognition Pipeline
 
